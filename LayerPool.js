@@ -8,7 +8,7 @@ class LayerPool {
     }
   }
 
-  getRandomLayer() {
+  getRandomLayerId() {
     let random = Math.floor(Math.random() * this.availableLayers.length - 1);
     let randomLayer = this.availableLayers[random];
     this.availableLayers.pop(random);
