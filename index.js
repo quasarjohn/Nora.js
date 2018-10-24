@@ -17,16 +17,16 @@ outputLayer.addNeuron(output0);
 const nn = new NeuralNetwork(inputLayer, outputLayer);
 
 
-for(let i = 0; i < 6; i++) {
+for(let i = 0; i < 2; i++) {
   nn.addRandomLayer(layerPool.getRandomLayerId());
 }
 
 //just for this test, add 100 neurons
-for(let i = 0; i < 20; i++) {
+for(let i = 0; i < 8; i++) {
   nn.addRandomNeuron(neuronKeyManager.getNewKey());
 }
 
-for(let i = 0; i < 100; i++) {
+for(let i = 0; i < 20; i++) {
   nn.makeRandomConnection();
 }
 

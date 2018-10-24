@@ -7,42 +7,46 @@ class Visualizer {
 
 
 visualize(nn) {
+
+  let incX = 200;
+  let incY = 100;
+
   this.nn = nn;
 
-  let x = 30;
-  let y = 30;
+  let x = 100;
+  let y = 100;
 
   //draw the input layer
   for(const neuronKey in nn.inputLayer.neurons) {
     const neuron = nn.inputLayer.neurons[neuronKey];
     neuron.x = x;
     neuron.y = y;
-    y+= 60;
+    y+= incY;
     this.drawNeuron(neuron);
   }
 
   //draw the hidden layers
   for(const layerKey in nn.layers) {
-    x += 100;
-    y = 30;
+    x += incX;
+    y = 100;
     const layer = nn.layers[layerKey];
     for(const neuronKey in layer.neurons) {
       const neuron = layer.neurons[neuronKey];
       neuron.x = x;
       neuron.y = y;
-      y+= 60;
+      y+= incY;
       this.drawNeuron(neuron);
     }
   }
 
   //draw the output layer
-  y = 30;
-  x += 100;
+  y = 100;
+  x += incX;
   for(const neuronKey in nn.outputLayer.neurons) {
     const neuron = nn.outputLayer.neurons[neuronKey];
     neuron.x = x;
     neuron.y = y;
-    y+= 60;
+    y+= incY;
     this.drawNeuron(neuron);
   }
 
@@ -63,8 +67,11 @@ visualize(nn) {
 
   drawNeuron(neuron) {
     this.ctx.beginPath();
-    this.ctx.arc(neuron.x, neuron.y, 20, 0, 2 * Math.PI);
+    this.ctx.arc(neuron.x, neuron.y, 35, 0, 2 * Math.PI);
     this.ctx.stroke();
+
+    this.ctx.font = "12px Arial";
+    this.ctx.fillText(neuron.key,neuron.x, neuron.y);
   }
 
   drawLine(neuron) {
