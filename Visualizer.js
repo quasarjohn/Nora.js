@@ -7,54 +7,26 @@ class Visualizer {
 
 
 visualize(nn) {
+  this.nn = nn;
 
   let incX = 200;
   let incY = 100;
 
-  this.nn = nn;
-
   let x = 100;
   let y = 100;
-
-  //draw the input layer
-  for(const neuronKey in nn.inputLayer.neurons) {
-    const neuron = nn.inputLayer.neurons[neuronKey];
-    neuron.x = x;
-    neuron.y = y;
-    y+= incY;
-    this.drawNeuron(neuron);
-  }
-
   //draw the hidden layers
   for(const layerKey in nn.layers) {
-    x += incX;
-    y = 100;
     const layer = nn.layers[layerKey];
     for(const neuronKey in layer.neurons) {
       const neuron = layer.neurons[neuronKey];
       neuron.x = x;
       neuron.y = y;
-      y+= incY;
+      y += incY;
       this.drawNeuron(neuron);
     }
+    x += incX;
+    y = 100;
   }
-
-  //draw the output layer
-  y = 100;
-  x += incX;
-  for(const neuronKey in nn.outputLayer.neurons) {
-    const neuron = nn.outputLayer.neurons[neuronKey];
-    neuron.x = x;
-    neuron.y = y;
-    y+= incY;
-    this.drawNeuron(neuron);
-  }
-
-  //draw the lines
-  // for(const neuronKey in nn.inputLayer.neurons) {
-  //   const neuron = nn.inputLayer.neurons[neuronKey];
-  //   this.drawLine(neuron);
-  // }
 
   for(const layerKey in nn.layers) {
     const layer = nn.layers[layerKey];

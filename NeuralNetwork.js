@@ -1,34 +1,36 @@
 class NeuralNetwork {
 
-  constructor(inputLayer, outputLayer) {
-    this.inputLayer = inputLayer;
-    this.outputLayer = outputLayer;
+  constructor() {
     this.layers = {};
   }
 
-  addRandomLayer(layerId) {
-    const layer = new Layer(layerId);
-    this.addLayer(layer);
-  }
-
   addRandomNeuron(neuronId) {
-    const layer = this.getRandomLayer(false);
-    const neuron = new Neuron(layer.key + '_' + neuronId);
-    layer.addNeuron(neuron);
+    const layer = this.getRandomLayer(true);
+    if(layer != undefined) {
+      const neuron = new Neuron(layer.key + '_' + neuronId);
+      layer.addNeuron(neuron);
+    }
   }
 
   makeRandomConnection() {
     //get two random layers
-    const layer0 = this.getRandomLayer(true);
-    const layer1 = this.getRandomLayer(true);
+    let max = Math.floor(Math.random() * Object.keys(nn.layers).length);
 
-    //check if the two random layers are not the same
-    if(layer0.key != layer1.key) {
-      if(Object.keys(layer0.neurons).length > 0 && Object.keys(layer1.neurons).length > 0) {
-        const neuron0 = layer0.getRandomNeuron();
-        const neuron1 = layer1.getRandomNeuron();
+    //+1 to ensure that layer0 has lesser index than layer1 to prevent recurrent connections
+    const layer0 = this.getRandomLayer(max);
+    const layer1 = this.getRandomLayer(max);
 
-        neuron0.connectTo(neuron1);
+    //check if neither is undefined
+    if(layer0 != undefined && layer1 != undefined) {
+      //check if the two random layers are not the same
+      if(layer0.key != layer1.key) {
+        //check if both contains neuron
+        if(Object.keys(layer0.neurons).length > 0 && Object.keys(layer1.neurons).length > 0) {
+          const neuron0 = layer0.getRandomNeuron();
+          const neuron1 = layer1.getRandomNeuron();
+
+          neuron0.connectTo(neuron1);
+        }
       }
     }
   }
@@ -38,29 +40,19 @@ class NeuralNetwork {
     this.layers[layer.key] = layer;
   }
 
-  getRandomLayer(includeInputLayer) {
+  getRandomLayer(includeInOut) {
     const keys = Object.keys(this.layers);
+    const r = Math.floor(Math.random() * keys.length);
 
-    if(includeInputLayer) {
-      const r = Math.floor(Math.random() * (keys.length + 2)) - 1;
-      console.log(r);
-      if(r == -1) {
-        return this.inputLayer
-      } else if(r >= keys.length) {
-        return this.outputLayer;
-      } else {
-        return this.layers[keys[r]];
-      }
-    }
-    //get the keys as array
-    //select a random number
-    const random = this.getRandomInt(0, keys.length);
-    //return that layer with that key
-    return this.layers[keys[random]];
+    if(includeInOut && (r == 0 || keys[r] == '1000'))
+      return undefined;
+
+    return this.layers[keys[r]];
   }
 
-  getRandomInt(min, max) {
-    const r = Math.floor(Math.random() * max) - min;
-    return r;
+  clone() {
+    const n = new NeuralNetwork(this.inputLayer, this.outputLayer);
+    n.layers = this.layers;
+    return n;
   }
 }
