@@ -11,5 +11,13 @@ class Neuron {
     this.val = 0;
     //the ID of neurons where this neuron will use the val as input
     this.connections = {};
+
+    //x and y coordinates in the canvas for visualization
+    this.x = 0;
+    this.y = 0;
+  }
+
+  connectTo(otherNeuron) {
+    this.connections[otherNeuron.key] = otherNeuron;
   }
 }

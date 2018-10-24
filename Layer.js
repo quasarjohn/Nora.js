@@ -11,8 +11,12 @@ class Layer {
 
   getRandomNeuron() {
     const keys = Object.keys(this.neurons);
-    const random = Math.floor(Math.random() * keys.length);
+    const random = this.getRandomInt(0, keys.length);
 
     return this.neurons[keys[random]];
+  }
+
+  getRandomInt(min, max) {
+    return Math.floor(Math.random() * max);
   }
 }
