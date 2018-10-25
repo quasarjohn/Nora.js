@@ -51,7 +51,7 @@ visualize(nn) {
     const startY = neuron.y;
 
     for(const connectionKey in neuron.connections) {
-      const outNeuron = neuron.connections[connectionKey];
+      const outNeuron = neuron.connections[connectionKey].neuron;
 
       const endX = outNeuron.x;
       const endY = outNeuron.y;

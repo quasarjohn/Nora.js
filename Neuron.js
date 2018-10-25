@@ -3,8 +3,6 @@ class Neuron {
   constructor(key) {
     // the key or the global id of the neuron
     this.key = key;
-    this.weight = 1;
-    this.bias = 1;
     // inputs from other neurons to this neuron
     this.inputs = {};
     //the summation of the product of the inpputs and the weight of this neuron + bias
@@ -18,6 +16,31 @@ class Neuron {
   }
 
   connectTo(otherNeuron) {
-    this.connections[otherNeuron.key] = otherNeuron;
+    this.connections[otherNeuron.key] = {
+      neuron: otherNeuron,
+      weight: Math.random(),
+      bias: Math.random()
+    };
+  }
+
+  //tanh activation
+  activate(input) {
+    return Math.tanh(input);
+  }
+
+  //mutation increments, dicrements or changes the weight
+  mutate() {
+
+  }
+
+  //(weighted sum of input * weight) + biases
+  calculate() {
+    let value = 0;
+    for(let connectionKey in this.connections) {
+      const connection = this.connections[connectionKey];
+      value += (connection.neuron.val * connection.weight) + connection.bias;
+      console.log(this.activate(value));
+      connection.neuron.val = this.activate(value);
+    }
   }
 }

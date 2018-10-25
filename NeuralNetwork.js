@@ -23,7 +23,7 @@ class NeuralNetwork {
     //check if neither is undefined
     if(layer0 != undefined && layer1 != undefined) {
       //check if the two random layers are not the same
-      if(layer0.key != layer1.key) {
+      if(layer0.key < layer1.key) {
         //check if both contains neuron
         if(Object.keys(layer0.neurons).length > 0 && Object.keys(layer1.neurons).length > 0) {
           const neuron0 = layer0.getRandomNeuron();
@@ -55,4 +55,15 @@ class NeuralNetwork {
     n.layers = this.layers;
     return n;
   }
+
+  feedForward() {
+    for(const layerKey in this.layers) {
+      const layer = this.layers[layerKey];
+      for(const neuronKey in layer.neurons) {
+        const neuron = layer.neurons[neuronKey];
+        neuron.calculate();
+      }
+    }
+  }
+
 }
